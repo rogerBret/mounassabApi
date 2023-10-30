@@ -1,6 +1,34 @@
 const Category = require('../models/category');
 
-// Créer une nouvelle catégorie
+/**
+ * @swagger
+ * components:
+ *   schemas:
+ *     Categories:
+ *       type: object
+ *       required:
+ *         - name
+ *         - description
+ *       properties:
+ *         id:
+ *           type: string
+ *           description: The auto-generated id of the Action
+ *         name:
+ *           type: string
+ *           description: The name of the category
+ *         description:
+ *           type: string
+ *           description: The description of the category
+ *         createdAt:
+ *           type: string
+ *           format: date
+ *           description: The date of category was added
+ *       example:
+ *         id: d5fE_asz
+ *         name: duplex
+ *         author: maison de reve
+ *         createdAt: 2020-03-10T04:05:06.157Z
+ */
 exports.createCategory = async (req, res) => {
   try {
     const { name, description } = req.body;
