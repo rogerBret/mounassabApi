@@ -1,5 +1,7 @@
 const express = require('express');
 const app = express();
+const swaggerJsdoc = require("swagger-jsdoc"),
+swaggerUi = require("swagger-ui-express");
 const multer = require('multer');
 const helmet = require('helmet');
 const jwt = require('jsonwebtoken');
@@ -7,14 +9,53 @@ const jwt = require('jsonwebtoken');
 
 const port = process.env.PORT || 3000;
 
+const options = {
+  definition: {
+    openapi: "3.1.0",
+    info: {
+      title: "Mounassab housing API",
+      version: "0.1.0",
+      description:
+        "This is the api for  estate app for mounassan",
+      license: {
+        name: "MIT",
+        url: "https://spdx.org/licenses/MIT.html",
+      },
+      contact: {
+        name: "Roger Betrand A",
+        url: "https://github.com/rogerBret",
+        email: "rogerbertrand360@gmail.com",
+      },
+    },
+    servers: [
+      {
+        url: "http://localhost:3000",
+      },
+    ],
+  },
+  apis: ["./routes/*.js"],
+};
+
+const specs = swaggerJsdoc(options);
+app.use(
+  "/api-docs",
+  swaggerUi.serve,
+  swaggerUi.setup(specs)
+);
+
+
+
+
 app.use(express.json());
 app.use(helmet());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static('public'));
 
+
+/*
 app.get('', (req, res) => {
   res.json({ message: 'Bienvenue sur notre application !' });
-});
+});*/
 
 const categoryRoutes = require('./routes/categoryRoutes');
 app.use('/categories', categoryRoutes);
